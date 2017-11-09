@@ -27,6 +27,14 @@ class Generator:
                 outputs = tf.nn.relu(tf.layers.batch_normalization(outputs, training=training), name='outputs')
             with tf.variable_scope('deconv4'):
                 outputs = tf.layers.conv2d_transpose(outputs, self.depths[4], [5, 5], strides=(2, 2), padding='SAME')
+
+            with tf.variable_scope('deconv5'):
+                outputs = tf.layers.conv2d_transpose(outputs, self.depths[5], [5, 5], strides=(2, 2), padding='SAME')
+            with tf.variable_scope('deconv6'):
+                outputs = tf.layers.conv2d_transpose(outputs, self.depths[6], [5, 5], strides=(2, 2), padding='SAME')
+            with tf.variable_scope('deconv7'):
+                outputs = tf.layers.conv2d_transpose(outputs, self.depths[7], [5, 5], strides=(2, 2), padding='SAME')
+
             # output images
             with tf.variable_scope('tanh'):
                 outputs = tf.tanh(outputs, name='outputs')
@@ -59,6 +67,17 @@ class Discriminator:
             with tf.variable_scope('conv4'):
                 outputs = tf.layers.conv2d(outputs, self.depths[4], [5, 5], strides=(2, 2), padding='SAME')
                 outputs = leaky_relu(tf.layers.batch_normalization(outputs, training=training), name='outputs')
+
+            with tf.variable_scope('conv5'):
+                outputs = tf.layers.conv2d(outputs, self.depths[5], [5, 5], strides=(2, 2), padding='SAME')
+                outputs = leaky_relu(tf.layers.batch_normalization(outputs, training=training), name='outputs')
+            with tf.variable_scope('conv6'):
+                outputs = tf.layers.conv2d(outputs, self.depths[6], [5, 5], strides=(2, 2), padding='SAME')
+                outputs = leaky_relu(tf.layers.batch_normalization(outputs, training=training), name='outputs')
+            with tf.variable_scope('conv7'):
+                outputs = tf.layers.conv2d(outputs, self.depths[7], [5, 5], strides=(2, 2), padding='SAME')
+                outputs = leaky_relu(tf.layers.batch_normalization(outputs, training=training), name='outputs')
+
             with tf.variable_scope('classify'):
                 batch_size = outputs.get_shape()[0].value
                 reshape = tf.reshape(outputs, [batch_size, -1])
