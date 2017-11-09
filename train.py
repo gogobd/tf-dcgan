@@ -25,7 +25,8 @@ def get_images_batch():
 
 dcgan = DCGAN(
     g_depths=[8192, 4096, 2048, 1024, 512, 256, 128],
-    d_depths=[64, 128, 256, 512, 1024, 2048, 4096]
+    d_depths=[64, 128, 256, 512, 1024, 2048, 4096],
+    s_size=4,
 )
 train_images = get_images_batch()
 losses = dcgan.loss(train_images)
